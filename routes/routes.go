@@ -1,10 +1,12 @@
 package routes
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/EmersonTeles/golang-api/controllers"
 	"github.com/EmersonTeles/golang-api/middleware"
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
@@ -17,5 +19,5 @@ func HandleRequest() {
 	r.HandleFunc("/api/personalidades", controllers.CreateNewPersonality).Methods("Post")
 	r.HandleFunc("/api/personalidades/{id}", controllers.DeletePersonality).Methods("Delete")
 	r.HandleFunc("/api/personalidades/{id}", controllers.UpdatePersonality).Methods("Put")
-	http.ListenAndServe(":8000", r)
+	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(handlers.AllowedOrigins([]string{"*"}))(r)))
 }
